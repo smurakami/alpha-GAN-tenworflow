@@ -5,11 +5,11 @@ def res_block(inputs, filters, kernel_size, strides=(1, 1), kernel_initializer=N
     x = inputs
 
     x = tf.layers.conv2d(x, filters, kernel_size=kernel_size, strides=strides, padding="same", kernel_initializer=kernel_initializer)
-    x = tf.layers.batch_normalization(inputs, axis=3, epsilon=1e-5, momentum=0.1, training=True, gamma_initializer=kernel_initializer)
+    x = tf.layers.batch_normalization(x, axis=3, epsilon=1e-5, momentum=0.1, training=True, gamma_initializer=kernel_initializer)
     x = tf.nn.relu(x)
 
     x = tf.layers.conv2d(x, filters, kernel_size=kernel_size, strides=strides, padding="same", kernel_initializer=kernel_initializer)
-    x = tf.layers.batch_normalization(inputs, axis=3, epsilon=1e-5, momentum=0.1, training=True, gamma_initializer=kernel_initializer)
+    x = tf.layers.batch_normalization(x, axis=3, epsilon=1e-5, momentum=0.1, training=True, gamma_initializer=kernel_initializer)
     x = tf.nn.relu(x + inputs)
 
     return x
@@ -39,7 +39,7 @@ def encoder(inputs):
 
     # -------
     x = tf.reshape(x, shape=(-1, h * 4 * 4))
-    x = tf.layers.dense(x, latent_dim)
+    x = tf.layers.dense(x, latent_dim, kernel_initializer=initializer)
 
     return x
 
@@ -49,7 +49,7 @@ def decoder(inputs):
     h = 128
     initializer = tf.random_normal_initializer(0, 0.02)
 
-    x = tf.layers.dense(inputs, h * 4 * 4)
+    x = tf.layers.dense(inputs, h * 4 * 4, kernel_initializer=initializer)
     x = tf.reshape(x, shape=(-1, 4, 4, h))
     x = tf.nn.relu(x)
 
