@@ -111,8 +111,9 @@ code_discriminator_opt = tf.train.AdamOptimizer(lr, beta1, beta2).minimize(
     code_discriminator_loss,
     var_list=code_discriminator_vars)
 
-data = np.load('data/cat_32.npy')
-
+# ======================================
+#  Utility Function to Visualize Result
+# ======================================
 
 def generate_and_save_current_image(epoch):
     z_batch = np.random.uniform(-1, 1, (16, 128))
@@ -131,6 +132,8 @@ def generate_and_save_current_image(epoch):
 # ======================================
 #           Training Session
 # ======================================
+
+data = np.load('data/cat_32.npy')
 
 init = tf.global_variables_initializer()
 sess = tf.Session()
